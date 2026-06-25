@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root,
+body {
+  min-height: 100vh;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app__header {
+  flex: 0 0 72px;
+  height: 72px;
+  border: 2px dashed #bdbdbd;
+  box-sizing: border-box;
+}
+
+.app__content {
+  flex: 1;
+  min-height: 0;
+}

@@ -1,10 +1,16 @@
-import './App.css'
+import './App.css';
+import { MovieSearch } from './features/movie-search/components/MovieSearch/MovieSearch';
 
-function App() {
+export default function App() {
   return (
-    <>
-    </>
-  )
-}
+    <div className="app">
+      <header className="app__header">
+        Header component
+      </header>
 
-export default App
+      <main className="app__content">
+       <MovieSearch />
+      </main>
+    </div>
+  );
+}

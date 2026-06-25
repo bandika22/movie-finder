@@ -1,0 +1,45 @@
+.movie-search {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.movie-search__search-bar {
+  flex: 0 0 64px;
+  min-height: 64px;
+
+  border: 2px dashed #bdbdbd;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.movie-search__content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  flex: 1;
+  min-height: 0;
+}
+
+.movie-search__movie-list {
+  min-height: 0;
+
+  border: 2px dashed #bdbdbd;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.movie-search__movie-details {
+  min-height: 0;
+
+  border: 2px dashed #bdbdbd;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
