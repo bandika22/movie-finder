@@ -1,4 +1,5 @@
 import { useMovieSearch } from '../../hooks/useMovieSearch';
+import { MovieList } from '../MovieList/MovieList';
 import { SearchBar } from '../SearchBar/SearchBar';
 import { Spinner } from '../Spinner/Spinner';
 import './MovieSearch.css';
@@ -16,21 +17,9 @@ export function MovieSearch() {
         <div className="movie-search__movie-list">
           {loading ? (
             <Spinner />
-          ) : called && movies.length === 0 ? (
-            <p className="movie-search__empty">No movies found.</p>
-          ) : (
-            <ul className="movie-search__results">
-              {movies.map((movie) => (
-                <li key={movie.id}>
-                  <strong>{movie.name}</strong>
-                  {' — '}
-                  {movie.genres.map((g) => g.name).join(', ')}
-                  {' — '}
-                  {movie.score.toFixed(1)}
-                </li>
-              ))}
-            </ul>
-          )}
+          ) : called ? (
+            <MovieList movies={movies} />
+          ) : null}
         </div>
       </section>
     </div>
