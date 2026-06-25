@@ -1,0 +1,40 @@
+.search-bar {
+  display: flex;
+  gap: 12px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.search-bar__input {
+  flex: 1;
+  min-height: 48px;
+  padding: 0 16px;
+
+  font: inherit;
+
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+}
+
+.search-bar__input:focus {
+  border-color: #2563eb;
+  outline: 3px solid rgb(37 99 235 / 15%);
+}
+
+.search-bar__button {
+  min-height: 48px;
+  padding: 0 24px;
+
+  font: inherit;
+  font-weight: 600;
+  color: white;
+
+  cursor: pointer;
+  background: #2563eb;
+  border: none;
+  border-radius: 8px;
+}
+
+.search-bar__button:hover {
+  background: #1d4ed8;
+}

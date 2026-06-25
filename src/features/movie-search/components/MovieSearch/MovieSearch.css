@@ -12,34 +12,28 @@
 }
 
 .movie-search__search-bar {
-  flex: 0 0 64px;
-  min-height: 64px;
-
-  border: 2px dashed #bdbdbd;
-  border-radius: 8px;
+  flex: 0 0 auto;
+  padding: 8px;
+  width: 100%;
   box-sizing: border-box;
 }
 
 .movie-search__content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
   flex: 1;
   min-height: 0;
 }
 
 .movie-search__movie-list {
   min-height: 0;
+  overflow-y: auto;
 
-  border: 2px dashed #bdbdbd;
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
   box-sizing: border-box;
 }
 
-.movie-search__movie-details {
-  min-height: 0;
-
-  border: 2px dashed #bdbdbd;
-  border-radius: 8px;
-  box-sizing: border-box;
+.movie-search__empty {
+  padding: 24px;
+  text-align: center;
+  color: #6b7280;
 }
