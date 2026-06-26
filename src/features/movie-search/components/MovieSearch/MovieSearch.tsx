@@ -9,7 +9,8 @@ import { Spinner } from '../Spinner/Spinner';
 import './MovieSearch.css';
 
 export function MovieSearch() {
-  const { movies, loading, called, search } = useMovieSearch();
+  const { movies, loading, called, search, showSimilar, backToSearch, mode } =
+    useMovieSearch();
   const { summary, loading: wikiLoading, lookup, clear } = useWikipedia();
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
@@ -24,6 +25,12 @@ export function MovieSearch() {
     lookup(movie.name);
   }
 
+  function handleShowSimilar(movie: Movie) {
+    showSimilar(movie.id);
+    setSelectedMovie(null);
+    clear();
+  }
+
   return (
     <div className="movie-search">
       <section className="movie-search__search-bar">
@@ -32,6 +39,12 @@ export function MovieSearch() {
 
       <section className="movie-search__content">
         <div className="movie-search__movie-list">
+          {mode === 'similar' && (
+            <button className="movie-search__back-btn" onClick={backToSearch}>
+              &larr; Back to search results
+            </button>
+          )}
+
           {loading ? (
             <Spinner />
           ) : called ? (
@@ -49,6 +62,7 @@ export function MovieSearch() {
               movie={selectedMovie}
               wikiSummary={summary}
               wikiLoading={wikiLoading}
+              onShowSimilar={() => handleShowSimilar(selectedMovie)}
             />
           )}
         </div>

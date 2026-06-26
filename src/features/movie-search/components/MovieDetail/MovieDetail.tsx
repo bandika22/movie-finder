@@ -7,12 +7,14 @@ type MovieDetailProps = {
   movie: Movie;
   wikiSummary: WikipediaSummary | null;
   wikiLoading: boolean;
+  onShowSimilar: () => void;
 };
 
 export function MovieDetail({
   movie,
   wikiSummary,
   wikiLoading,
+  onShowSimilar,
 }: MovieDetailProps) {
   return (
     <article className="movie-detail">
@@ -29,22 +31,28 @@ export function MovieDetail({
 
       <p className="movie-detail__overview">{movie.overview}</p>
 
+      <div className="movie-detail__actions">
+        {wikiSummary && (
+          <a
+            className="movie-detail__wiki-link"
+            href={wikiSummary.pageUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open on Wikipedia
+          </a>
+        )}
+        <button className="movie-detail__similar-btn" onClick={onShowSimilar}>
+          Related Movies
+        </button>
+      </div>
+
       <section className="movie-detail__wiki">
         <h3>Wikipedia</h3>
         {wikiLoading ? (
           <Spinner />
         ) : wikiSummary ? (
-          <>
-            <p>{wikiSummary.extract}</p>
-            <a
-              className="movie-detail__wiki-link"
-              href={wikiSummary.pageUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open on Wikipedia
-            </a>
-          </>
+          <p>{wikiSummary.extract}</p>
         ) : (
           <p className="movie-detail__wiki-empty">
             No Wikipedia article found.

@@ -5,11 +5,11 @@ export default function App() {
   return (
     <div className="app">
       <header className="app__header">
-        Header component
+        <h1 className="app__title">Movie Finder</h1>
       </header>
 
       <main className="app__content">
-       <MovieSearch />
+        <MovieSearch />
       </main>
     </div>
   );
