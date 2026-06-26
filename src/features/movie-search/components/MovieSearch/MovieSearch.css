@@ -19,11 +19,23 @@
 }
 
 .movie-search__content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
   flex: 1;
   min-height: 0;
 }
 
 .movie-search__movie-list {
+  min-height: 0;
+  overflow-y: auto;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.movie-search__movie-details {
   min-height: 0;
   overflow-y: auto;
 
