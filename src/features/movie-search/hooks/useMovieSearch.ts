@@ -3,14 +3,16 @@ import { useLazyQuery } from '@apollo/client/react';
 import {
   SEARCH_MOVIES,
   GET_SIMILAR_MOVIES,
+  DISCOVER_MOVIES,
   type Movie,
 } from '../graphql/movieQueries';
 
-type Mode = 'search' | 'similar';
+type Mode = 'search' | 'similar' | 'discover';
 
 export function useMovieSearch() {
   const [searchMovies, searchResult] = useLazyQuery(SEARCH_MOVIES);
   const [getSimilar, similarResult] = useLazyQuery(GET_SIMILAR_MOVIES);
+  const [discoverMovies, discoverResult] = useLazyQuery(DISCOVER_MOVIES);
   const [mode, setMode] = useState<Mode>('search');
 
   const search = useCallback(
@@ -29,19 +31,42 @@ export function useMovieSearch() {
     [getSimilar],
   );
 
+  const discoverByGenre = useCallback(
+    (genreId: string) => {
+      setMode('discover');
+      discoverMovies({ variables: { genreId } });
+    },
+    [discoverMovies],
+  );
+
   const backToSearch = useCallback(() => {
     setMode('search');
   }, []);
 
-  const movies: Movie[] =
-    mode === 'search'
-      ? (searchResult.data?.searchMovies ?? [])
-      : (similarResult.data?.movie?.similar ?? []);
+  const moviesByMode: Record<Mode, Movie[]> = {
+    search: searchResult.data?.searchMovies ?? [],
+    similar: similarResult.data?.movie?.similar ?? [],
+    discover: discoverResult.data?.discoverMovies ?? [],
+  };
+
+  const movies = moviesByMode[mode];
 
   const loading =
-    mode === 'search' ? searchResult.loading : similarResult.loading;
+    (mode === 'search' && searchResult.loading) ||
+    (mode === 'similar' && similarResult.loading) ||
+    (mode === 'discover' && discoverResult.loading);
 
-  const called = searchResult.called || similarResult.called;
+  const called =
+    searchResult.called || similarResult.called || discoverResult.called;
 
-  return { movies, loading, called, search, showSimilar, backToSearch, mode };
+  return {
+    movies,
+    loading,
+    called,
+    search,
+    showSimilar,
+    discoverByGenre,
+    backToSearch,
+    mode,
+  };
 }

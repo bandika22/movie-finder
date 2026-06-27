@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from 'react';
+import { type FormEvent } from 'react';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -12,16 +12,16 @@ const SearchForm = styled('form')({
 });
 
 type SearchBarProps = {
+  value: string;
+  onChange: (value: string) => void;
   onSearch: (searchTerm: string) => void;
 };
 
-export function SearchBar({ onSearch }: SearchBarProps) {
-  const [searchTerm, setSearchTerm] = useState('');
-
+export function SearchBar({ value, onChange, onSearch }: SearchBarProps) {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const trimmedSearchTerm = searchTerm.trim();
+    const trimmedSearchTerm = value.trim();
 
     if (!trimmedSearchTerm) {
       return;
@@ -35,8 +35,8 @@ export function SearchBar({ onSearch }: SearchBarProps) {
       <TextField
         fullWidth
         size="small"
-        value={searchTerm}
-        onChange={(event) => setSearchTerm(event.target.value)}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
         placeholder="Search for a movie..."
         aria-label="Movie title"
       />

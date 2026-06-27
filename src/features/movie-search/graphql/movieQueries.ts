@@ -20,6 +20,24 @@ export type Movie = {
   poster: Poster | null;
 };
 
+const MOVIE_FIELDS = gql`
+  fragment MovieFields on Movie {
+    id
+    name
+    overview
+    releaseDate
+    genres {
+      id
+      name
+    }
+    score
+    poster {
+      small
+      medium
+    }
+  }
+`;
+
 export type SearchMoviesResult = {
   searchMovies: Movie[];
 };
@@ -34,21 +52,10 @@ export const SEARCH_MOVIES: TypedDocumentNode<
 > = gql`
   query SearchMovies($query: String!) {
     searchMovies(query: $query) {
-      id
-      name
-      overview
-      releaseDate
-      genres {
-        id
-        name
-      }
-      score
-      poster {
-        small
-        medium
-      }
+      ...MovieFields
     }
   }
+  ${MOVIE_FIELDS}
 `;
 
 export type SimilarMoviesResult = {
@@ -68,20 +75,42 @@ export const GET_SIMILAR_MOVIES: TypedDocumentNode<
   query GetSimilarMovies($id: ID!) {
     movie(id: $id) {
       similar {
-        id
-        name
-        overview
-        releaseDate
-        genres {
-          id
-          name
-        }
-        score
-        poster {
-          small
-          medium
-        }
+        ...MovieFields
       }
     }
   }
+  ${MOVIE_FIELDS}
+`;
+
+export type MovieGenresResult = {
+  movieGenres: Genre[];
+};
+
+export const MOVIE_GENRES: TypedDocumentNode<MovieGenresResult> = gql`
+  query MovieGenres {
+    movieGenres {
+      id
+      name
+    }
+  }
+`;
+
+export type DiscoverMoviesResult = {
+  discoverMovies: Movie[];
+};
+
+export type DiscoverMoviesVariables = {
+  genreId: string;
+};
+
+export const DISCOVER_MOVIES: TypedDocumentNode<
+  DiscoverMoviesResult,
+  DiscoverMoviesVariables
+> = gql`
+  query DiscoverMoviesByGenre($genreId: ID!) {
+    discoverMovies(filter: { withGenres: { include: [$genreId] } }) {
+      ...MovieFields
+    }
+  }
+  ${MOVIE_FIELDS}
 `;
