@@ -1,7 +1,33 @@
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
+import Chip from '@mui/material/Chip';
+import Divider from '@mui/material/Divider';
 import type { Movie } from '../../graphql/movieQueries';
 import type { WikipediaSummary } from '../../services/wikipedia.service';
 import { Spinner } from '../Spinner/Spinner';
-import './MovieDetail.css';
+
+const DetailRoot = styled(Box)({
+  padding: 20,
+  overflow: 'auto',
+  height: '100%',
+  boxSizing: 'border-box',
+});
+
+const GenreRow = styled(Box)({
+  display: 'flex',
+  gap: 8,
+  marginBottom: 16,
+  alignItems: 'center',
+});
+
+const Actions = styled(Box)({
+  display: 'flex',
+  gap: 12,
+  marginBottom: 24,
+});
 
 type MovieDetailProps = {
   movie: Movie;
@@ -17,48 +43,56 @@ export function MovieDetail({
   onShowSimilar,
 }: MovieDetailProps) {
   return (
-    <article className="movie-detail">
-      <h2 className="movie-detail__title">{movie.name}</h2>
+    <DetailRoot>
+      <Typography variant="h5" gutterBottom>
+        {movie.name}
+      </Typography>
 
-      <div className="movie-detail__info">
-        <span className="movie-detail__genres">
-          {movie.genres.map((g) => g.name).join(', ')}
-        </span>
-        <span className="movie-detail__score">
-          Score: {movie.score.toFixed(1)}
-        </span>
-      </div>
+      <GenreRow>
+        {movie.genres.map((g) => (
+          <Chip key={g.id} label={g.name} size="small" />
+        ))}
+        <Chip label={movie.score.toFixed(1)} size="small" color="warning" />
+      </GenreRow>
 
-      <p className="movie-detail__overview">{movie.overview}</p>
+      <Typography variant="body1" color="text.secondary" gutterBottom>
+        {movie.overview}
+      </Typography>
 
-      <div className="movie-detail__actions">
+      <Actions>
         {wikiSummary && (
-          <a
-            className="movie-detail__wiki-link"
+          <Button
+            variant="contained"
+            component={Link}
             href={wikiSummary.pageUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
             Open on Wikipedia
-          </a>
+          </Button>
         )}
-        <button className="movie-detail__similar-btn" onClick={onShowSimilar}>
+        <Button variant="outlined" onClick={onShowSimilar}>
           Related Movies
-        </button>
-      </div>
+        </Button>
+      </Actions>
 
-      <section className="movie-detail__wiki">
-        <h3>Wikipedia</h3>
-        {wikiLoading ? (
-          <Spinner />
-        ) : wikiSummary ? (
-          <p>{wikiSummary.extract}</p>
-        ) : (
-          <p className="movie-detail__wiki-empty">
-            No Wikipedia article found.
-          </p>
-        )}
-      </section>
-    </article>
+      <Divider />
+
+      <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+        Wikipedia
+      </Typography>
+
+      {wikiLoading ? (
+        <Spinner />
+      ) : wikiSummary ? (
+        <Typography variant="body2" color="text.secondary">
+          {wikiSummary.extract}
+        </Typography>
+      ) : (
+        <Typography variant="body2" color="text.disabled" fontStyle="italic">
+          No Wikipedia article found.
+        </Typography>
+      )}
+    </DetailRoot>
   );
 }

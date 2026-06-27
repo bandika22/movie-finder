@@ -1,5 +1,15 @@
 import { type FormEvent, useState } from 'react';
-import './SearchBar.css';
+import { styled } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import SearchIcon from '@mui/icons-material/Search';
+
+const SearchForm = styled('form')({
+  display: 'flex',
+  gap: 12,
+  width: '80%',
+  margin: '0 auto',
+});
 
 type SearchBarProps = {
   onSearch: (searchTerm: string) => void;
@@ -21,19 +31,19 @@ export function SearchBar({ onSearch }: SearchBarProps) {
   }
 
   return (
-    <form className="search-bar" onSubmit={handleSubmit}>
-      <input
-        className="search-bar__input"
-        type="search"
+    <SearchForm onSubmit={handleSubmit}>
+      <TextField
+        fullWidth
+        size="small"
         value={searchTerm}
         onChange={(event) => setSearchTerm(event.target.value)}
         placeholder="Search for a movie..."
         aria-label="Movie title"
       />
 
-      <button className="search-bar__button" type="submit">
+      <Button type="submit" variant="contained" startIcon={<SearchIcon />}>
         Search
-      </button>
-    </form>
+      </Button>
+    </SearchForm>
   );
 }

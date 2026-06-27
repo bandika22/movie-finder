@@ -1,5 +1,29 @@
+import { styled } from '@mui/material/styles';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import type { Movie } from '../../graphql/movieQueries';
-import './MovieList.css';
+
+const StyledList = styled(List)({
+  overflow: 'auto',
+  height: '100%',
+});
+
+const MetaRow = styled('span')({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginTop: 4,
+});
+
+const GenreGroup = styled('span')({
+  display: 'flex',
+  gap: 4,
+  flexWrap: 'wrap',
+});
 
 type MovieListProps = {
   movies: Movie[];
@@ -13,32 +37,41 @@ export function MovieList({
   onMovieClick,
 }: MovieListProps) {
   if (movies.length === 0) {
-    return <p className="movie-list__empty">No movies found.</p>;
+    return (
+      <Typography sx={{ p: 3, textAlign: 'center' }} color="text.secondary">
+        No movies found.
+      </Typography>
+    );
   }
 
   return (
-    <ul className="movie-list">
+    <StyledList disablePadding>
       {movies.map((movie) => (
-        <li
+        <ListItemButton
           key={movie.id}
-          className={`movie-list__item ${movie.id === selectedMovieId ? 'movie-list__item--selected' : ''}`}
+          selected={movie.id === selectedMovieId}
+          onClick={() => onMovieClick(movie)}
+          divider
         >
-          <button
-            className="movie-list__link"
-            onClick={() => onMovieClick(movie)}
-          >
-            <span className="movie-list__name">{movie.name}</span>
-            <span className="movie-list__meta">
-              <span className="movie-list__genres">
-                {movie.genres.map((g) => g.name).join(', ')}
-              </span>
-              <span className="movie-list__score">
-                {movie.score.toFixed(1)}
-              </span>
-            </span>
-          </button>
-        </li>
+          <ListItemText
+            primary={movie.name}
+            secondary={
+              <MetaRow>
+                <GenreGroup>
+                  {movie.genres.map((g) => (
+                    <Chip key={g.id} label={g.name} size="small" />
+                  ))}
+                </GenreGroup>
+                <Chip
+                  label={movie.score.toFixed(1)}
+                  size="small"
+                  color="warning"
+                />
+              </MetaRow>
+            }
+          />
+        </ListItemButton>
       ))}
-    </ul>
+    </StyledList>
   );
 }
