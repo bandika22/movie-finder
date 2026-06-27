@@ -1,29 +1,16 @@
-import { styled } from '@mui/material/styles';
-import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import type { Movie } from '../../graphql/movieQueries';
-
-const StyledList = styled(List)({
-  overflow: 'auto',
-  height: '100%',
-});
-
-const MetaRow = styled('span')({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  marginTop: 4,
-});
-
-const GenreGroup = styled('span')({
-  display: 'flex',
-  gap: 4,
-  flexWrap: 'wrap',
-});
+import {
+  StyledList,
+  MetaRow,
+  GenreGroup,
+  PosterImage,
+  PosterFallback,
+} from './MovieList.styles';
 
 type MovieListProps = {
   movies: Movie[];
@@ -52,7 +39,16 @@ export function MovieList({
           selected={movie.id === selectedMovieId}
           onClick={() => onMovieClick(movie)}
           divider
+          alignItems="flex-start"
         >
+          <ListItemAvatar>
+            {movie.poster?.small ? (
+              <PosterImage src={movie.poster.small} alt={movie.name} />
+            ) : (
+              <PosterFallback>N/A</PosterFallback>
+            )}
+          </ListItemAvatar>
+
           <ListItemText
             primary={movie.name}
             secondary={

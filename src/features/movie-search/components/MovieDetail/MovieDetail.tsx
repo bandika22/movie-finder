@@ -1,4 +1,3 @@
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -8,26 +7,13 @@ import Divider from '@mui/material/Divider';
 import type { Movie } from '../../graphql/movieQueries';
 import type { WikipediaSummary } from '../../services/wikipedia.service';
 import { Spinner } from '../Spinner/Spinner';
-
-const DetailRoot = styled(Box)({
-  padding: 20,
-  overflow: 'auto',
-  height: '100%',
-  boxSizing: 'border-box',
-});
-
-const GenreRow = styled(Box)({
-  display: 'flex',
-  gap: 8,
-  marginBottom: 16,
-  alignItems: 'center',
-});
-
-const Actions = styled(Box)({
-  display: 'flex',
-  gap: 12,
-  marginBottom: 24,
-});
+import {
+  DetailRoot,
+  Header,
+  PosterImage,
+  GenreRow,
+  Actions,
+} from './MovieDetail.styles';
 
 type MovieDetailProps = {
   movie: Movie;
@@ -44,16 +30,26 @@ export function MovieDetail({
 }: MovieDetailProps) {
   return (
     <DetailRoot>
-      <Typography variant="h5" gutterBottom>
-        {movie.name}
-      </Typography>
+      <Header>
+        {movie.poster?.medium && (
+          <PosterImage src={movie.poster.medium} alt={movie.name} />
+        )}
 
-      <GenreRow>
-        {movie.genres.map((g) => (
-          <Chip key={g.id} label={g.name} size="small" />
-        ))}
-        <Chip label={movie.score.toFixed(1)} size="small" color="warning" />
-      </GenreRow>
+        <Box>
+          <Typography variant="h5">{movie.name}</Typography>
+
+          <GenreRow>
+            {movie.genres.map((g) => (
+              <Chip key={g.id} label={g.name} size="small" />
+            ))}
+            <Chip
+              label={movie.score.toFixed(1)}
+              size="small"
+              color="warning"
+            />
+          </GenreRow>
+        </Box>
+      </Header>
 
       <Typography variant="body1" color="text.secondary" gutterBottom>
         {movie.overview}

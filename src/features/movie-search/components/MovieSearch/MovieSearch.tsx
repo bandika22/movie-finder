@@ -1,8 +1,5 @@
 import { useState } from 'react';
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import type { Movie } from '../../graphql/movieQueries';
 import { useMovieSearch } from '../../hooks/useMovieSearch';
@@ -11,36 +8,7 @@ import { MovieDetail } from '../MovieDetail/MovieDetail';
 import { MovieList } from '../MovieList/MovieList';
 import { SearchBar } from '../SearchBar/SearchBar';
 import { Spinner } from '../Spinner/Spinner';
-
-const Root = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 24,
-  height: '100%',
-  maxWidth: 1400,
-  margin: '0 auto',
-  padding: 24,
-  boxSizing: 'border-box',
-});
-
-const ContentGrid = styled(Box)({
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
-  gap: 24,
-  flex: 1,
-  minHeight: 0,
-});
-
-const Panel = styled(Paper)({
-  minHeight: 0,
-  overflow: 'hidden',
-});
-
-const BackButton = styled(Button)(({ theme }) => ({
-  justifyContent: 'flex-start',
-  borderBottom: `1px solid ${theme.palette.divider}`,
-  borderRadius: 0,
-}));
+import { Root, ContentGrid, Panel, BackButton } from './MovieSearch.styles';
 
 export function MovieSearch() {
   const { movies, loading, called, search, showSimilar, backToSearch, mode } =

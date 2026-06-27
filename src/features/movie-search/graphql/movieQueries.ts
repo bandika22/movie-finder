@@ -5,6 +5,11 @@ export type Genre = {
   name: string;
 };
 
+export type Poster = {
+  small: string | null;
+  medium: string | null;
+};
+
 export type Movie = {
   id: string;
   name: string;
@@ -12,6 +17,7 @@ export type Movie = {
   releaseDate: string;
   genres: Genre[];
   score: number;
+  poster: Poster | null;
 };
 
 export type SearchMoviesResult = {
@@ -37,6 +43,10 @@ export const SEARCH_MOVIES: TypedDocumentNode<
         name
       }
       score
+      poster {
+        small
+        medium
+      }
     }
   }
 `;
@@ -67,6 +77,10 @@ export const GET_SIMILAR_MOVIES: TypedDocumentNode<
           name
         }
         score
+        poster {
+          small
+          medium
+        }
       }
     }
   }
