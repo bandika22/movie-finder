@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
+import Alert from '@mui/material/Alert';
 import type { Movie } from '../../graphql/movieQueries';
 import type { WikipediaSummary } from '../../services/wikipedia.service';
 import { Spinner } from '../Spinner/Spinner';
@@ -19,6 +20,7 @@ type MovieDetailProps = {
   movie: Movie;
   wikiSummary: WikipediaSummary | null;
   wikiLoading: boolean;
+  wikiError: boolean;
   onShowSimilar: () => void;
 };
 
@@ -26,6 +28,7 @@ export function MovieDetail({
   movie,
   wikiSummary,
   wikiLoading,
+  wikiError,
   onShowSimilar,
 }: MovieDetailProps) {
   return (
@@ -80,12 +83,16 @@ export function MovieDetail({
 
       {wikiLoading ? (
         <Spinner />
+      ) : wikiError ? (
+        <Alert severity="warning">
+          Failed to load Wikipedia summary.
+        </Alert>
       ) : wikiSummary ? (
         <Typography variant="body2" color="text.secondary">
           {wikiSummary.extract}
         </Typography>
       ) : (
-        <Typography variant="body2" color="text.disabled" fontStyle="italic">
+        <Typography variant="body2" color="text.disabled" sx={{ fontStyle: 'italic' }}>
           No Wikipedia article found.
         </Typography>
       )}

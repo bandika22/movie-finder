@@ -17,7 +17,7 @@ import { Root, ContentGrid, Panel, BackButton } from './MovieSearch.styles';
 export function MovieSearch() {
   const { movies, loading, called, error, search, showSimilar, discoverByGenre, backToSearch, mode } =
     useMovieSearch();
-  const { summary, loading: wikiLoading, lookup, clear } = useWikipedia();
+  const { summary, loading: wikiLoading, error: wikiError, lookup, clear } = useWikipedia();
   const { data: genresData } = useQuery(MOVIE_GENRES);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -121,6 +121,7 @@ export function MovieSearch() {
               movie={selectedMovie}
               wikiSummary={summary}
               wikiLoading={wikiLoading}
+              wikiError={wikiError}
               onShowSimilar={() => handleShowSimilar(selectedMovie)}
             />
           )}

@@ -1,4 +1,3 @@
-import { type FormEvent } from 'react';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -18,7 +17,7 @@ type SearchBarProps = {
 };
 
 export function SearchBar({ value, onChange, onSearch }: SearchBarProps) {
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const trimmedSearchTerm = value.trim();
