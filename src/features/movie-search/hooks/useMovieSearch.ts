@@ -59,10 +59,17 @@ export function useMovieSearch() {
   const called =
     searchResult.called || similarResult.called || discoverResult.called;
 
+  const error =
+    (mode === 'search' && searchResult.error) ||
+    (mode === 'similar' && similarResult.error) ||
+    (mode === 'discover' && discoverResult.error) ||
+    null;
+
   return {
     movies,
     loading,
     called,
+    error,
     search,
     showSimilar,
     discoverByGenre,

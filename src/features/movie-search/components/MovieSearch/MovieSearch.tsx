@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useQuery } from '@apollo/client/react';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import type { Genre, Movie } from '../../graphql/movieQueries';
 import { MOVIE_GENRES } from '../../graphql/movieQueries';
@@ -14,7 +15,7 @@ import { Spinner } from '../Spinner/Spinner';
 import { Root, ContentGrid, Panel, BackButton } from './MovieSearch.styles';
 
 export function MovieSearch() {
-  const { movies, loading, called, search, showSimilar, discoverByGenre, backToSearch, mode } =
+  const { movies, loading, called, error, search, showSimilar, discoverByGenre, backToSearch, mode } =
     useMovieSearch();
   const { summary, loading: wikiLoading, lookup, clear } = useWikipedia();
   const { data: genresData } = useQuery(MOVIE_GENRES);
@@ -99,7 +100,11 @@ export function MovieSearch() {
             </BackButton>
           )}
 
-          {loading ? (
+          {error ? (
+            <Alert severity="error" sx={{ m: 2 }}>
+              Failed to load movies. Please try again later.
+            </Alert>
+          ) : loading ? (
             <Spinner />
           ) : called ? (
             <MovieList
